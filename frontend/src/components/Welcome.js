@@ -7,8 +7,8 @@ export default function Welcome() {
     }
   return (
     <Alert style={border} className='bg-dark text-white'>
-        <h1>Welcome to Book Worm</h1>
-        <p>Let your culturize journey begin</p>
+        <h1>Welcome to Teach Aid</h1>
+        <p>Let us help you manage your students!</p>
     </Alert>
   )
 }
