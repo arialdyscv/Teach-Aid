@@ -1,21 +1,22 @@
 import React,{useState} from 'react';
-import { Row, Col, Card, FormControl, InputGroup, Form, Button } from 'react-bootstrap';
+import { Row, Col, Card, FormControl, InputGroup, Form, Button, ButtonGroup, Nav } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faSignInAlt, faEnvelope, faLock, faCancel} from '@fortawesome/free-solid-svg-icons';
+import {faSignInAlt, faUser, faLock, faCancel, faUserPlus} from '@fortawesome/free-solid-svg-icons';
 
 
 export default function Login() {
     const [credentials,setCredentials] = useState({
-        email:"",
+        username:"",
         password:""
     });
 
     const initialState = {
-        email: "",
+        username: "",
         password: ""
     }
 
-    const{email, password} = credentials
+    const{username, password} = credentials
 
     const credentialChange = (e) => {
         setCredentials({...credentials,[e.target.name]:e.target.value})
@@ -37,11 +38,11 @@ export default function Login() {
                     <Card.Body>
                         <Row>
                             <Form.Group as={Col}>
-                                <InputGroup style={{"padding-bottom":"10px"}}>
-                                        <InputGroup.Text><FontAwesomeIcon icon={faEnvelope}/></InputGroup.Text>
+                                <InputGroup className='pb-3'>
+                                        <InputGroup.Text><FontAwesomeIcon icon={faUser}/></InputGroup.Text>
                                         <FormControl required autoComplete='off' 
-                                            type='email' name='email' value={email} onChange={credentialChange}
-                                            className={"bg-dark text-white"} placeholder='Enter Email Address'
+                                            type='username' name='username' value={username} onChange={credentialChange}
+                                            className={"bg-dark text-white"} placeholder='Enter User Name'
                                         />
                                 </InputGroup>
                                 
@@ -59,19 +60,27 @@ export default function Login() {
                             </Form.Group>
                         </Row>            
                     </Card.Body>
-                    <Card.Footer style={{"text-align":"right"}}>
-                        <Button size='sm' type='button' variant='info'
-                            disabled={email.length === 0 || password.length === 0}
-                        >
-                            <FontAwesomeIcon icon={faSignInAlt}/> Login
-                        </Button>
-                        {' '}
-                        <Button size='sm' type='button' variant='secondary'
-                            disabled={email.length === 0 && password.length === 0}
-                            onClick={resetLoginForm}
-                        >
-                            <FontAwesomeIcon icon={faCancel}/> Cancel
-                        </Button>
+                    <Card.Footer className='container' >
+                        <Row >
+                            <Col className='d-flex justify-content-start'>
+                                <Link to={"/register"} size='sm' type='button' variant='success' className='btn btn-sm btn-success m-1'>
+                                    <FontAwesomeIcon icon={faUserPlus}/> Register
+                                </Link>
+                            </Col>
+                            <Col className='d-flex justify-content-end'>
+                                <Button size='sm' type='button' variant='info' className='m-1'
+                                    disabled={username.length === 0 || password.length === 0}
+                                >
+                                    <FontAwesomeIcon icon={faSignInAlt}/> Login
+                                </Button>
+                                <Button size='sm' type='button' variant='secondary' className='m-1'
+                                    disabled={username.length === 0 && password.length === 0}
+                                    onClick={resetLoginForm}
+                                >
+                                    <FontAwesomeIcon icon={faCancel}/> Cancel
+                                </Button>
+                            </Col>
+                        </Row>                  
                     </Card.Footer>
                 </Card>
             </Col>
