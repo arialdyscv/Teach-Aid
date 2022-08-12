@@ -1,13 +1,29 @@
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import { Row, Col, Card, FormControl, InputGroup, Form, Button } from 'react-bootstrap';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faUserPlus, faUser, faLock, faCancel, faUserCheck} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+import { faUserPlus, faUser, faLock, faCancel, faUserCheck } from '@fortawesome/free-solid-svg-icons';
 
 export default function Register() {
 
-  const [newUser,setNewUser] = useState({
-    username:"",
-    password:""
+  let navigate = useNavigate();
+
+  const onSubmit = async (e) => {
+    e.preventDefault()
+    await axios.post("http://localhost:8080/register", newUser)
+      .then(res => {
+        if (res.data != null) {
+          setNewUser(initialState);
+          alert("User Saved Successfully");
+        }
+      });
+    navigate("/login");
+  };
+
+  const [newUser, setNewUser] = useState({
+    username: "",
+    password: ""
   });
 
   const initialState = {
@@ -15,10 +31,10 @@ export default function Register() {
     password: ""
   }
 
-  const{username, password} = newUser
+  const { username, password } = newUser
 
   const newUserChange = (e) => {
-    setNewUser({...newUser,[e.target.name]:e.target.value})
+    setNewUser({ ...newUser, [e.target.name]: e.target.value })
 
   }
 
@@ -28,55 +44,56 @@ export default function Register() {
 
   return (
     <div>
-        <Row className='container-fluid flex-d justify-content-md-center'>
-          <Col xs={5}>
-            <Card className='border border-dark bg-dark text-white'>
-              <Card.Header>
-                <FontAwesomeIcon icon={faUserPlus}/> New User
-              </Card.Header>
-              <Card.Body>
-                <Row>
-                  <Form.Group as={Col}>
-                    <InputGroup className='pb-3'>
-                      <InputGroup.Text><FontAwesomeIcon icon={faUser}/></InputGroup.Text>
-                      <FormControl required autoComplete='off' 
-                        type='username' name='username' value={username} onChange={newUserChange}
-                        className={"bg-dark text-white"} 
-                      />
-                    </InputGroup>
-                  </Form.Group>
-                </Row>
-                <Row>
-                  <Form.Group as={Col}>
-                    <InputGroup >
-                      <InputGroup.Text><FontAwesomeIcon icon={faLock}/></InputGroup.Text>
-                      <FormControl required autoComplete='off' 
-                        type='password' name='password' value={password} onChange={newUserChange}
-                        className={"bg-dark text-white"}
-                      />
-                    </InputGroup>
-                  </Form.Group>
-                </Row> 
-              </Card.Body>
-              <Card.Footer>
-                <Button size='sm' type='button' variant='info'
-                  disabled={username.length === 0 || password.length === 0}
-                >
-                  <FontAwesomeIcon icon={faUserCheck}/> Register
-                </Button>
-                {' '}
-                <Button size='sm' type='button' variant='secondary'
-                  disabled={username.length === 0 && password.length === 0}
-                  onClick={resetRegisterForm}
-                >
-                  <FontAwesomeIcon icon={faCancel}/> Cancel
-                </Button>
-              </Card.Footer>
-              
-            </Card>
-          
-          </Col>
-        </Row>
+      <Row className='container-fluid flex-d justify-content-md-center'>
+        <Col xs={5}>
+          <Card className='border border-dark bg-dark text-white'>
+            <Card.Header>
+              <FontAwesomeIcon icon={faUserPlus} /> New User
+            </Card.Header>
+            <Card.Body>
+              <Row>
+                <Form.Group as={Col}>
+                  <InputGroup className='pb-3'>
+                    <InputGroup.Text><FontAwesomeIcon icon={faUser} /></InputGroup.Text>
+                    <FormControl required autoComplete='off'
+                      type='username' name='username' value={username} onChange={newUserChange}
+                      className={"bg-dark text-white"}
+                    />
+                  </InputGroup>
+                </Form.Group>
+              </Row>
+              <Row>
+                <Form.Group as={Col}>
+                  <InputGroup >
+                    <InputGroup.Text><FontAwesomeIcon icon={faLock} /></InputGroup.Text>
+                    <FormControl required autoComplete='off'
+                      type='password' name='password' value={password} onChange={newUserChange}
+                      className={"bg-dark text-white"}
+                    />
+                  </InputGroup>
+                </Form.Group>
+              </Row>
+            </Card.Body>
+            <Card.Footer>
+              <Button size='sm' type='button' variant='info'
+                disabled={username.length === 0 || password.length === 0}
+                onClick={onSubmit}
+              >
+                <FontAwesomeIcon icon={faUserCheck} /> Register
+              </Button>
+              {' '}
+              <Button size='sm' type='button' variant='secondary'
+                disabled={username.length === 0 && password.length === 0}
+                onClick={resetRegisterForm}
+              >
+                <FontAwesomeIcon icon={faCancel} /> Cancel
+              </Button>
+            </Card.Footer>
+
+          </Card>
+
+        </Col>
+      </Row>
     </div>
   )
 }

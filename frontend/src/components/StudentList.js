@@ -9,10 +9,16 @@ import axios from 'axios';/*allows to make http requests to external resources
 
 export default function BookList() {
 
+  const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdWNjZXNzIiwiZXhwIjoxNjYwMjY0OTkxLCJpYXQiOjE2NjAyNDY5OTF9.L9yIEMmrfcLyrufl7PHEhHBzk0dVyoumGNcwfd52ALFAuvUWPqu82dzM43JNaJVSELZtTxPHd8AHAUV_nlgAJA'; /*take only token and save in token variable*/
+
   const [students,setStudents] = useState([])
 
   const loadStudents = async() => {
-    const result = await axios.get("http://localhost:8080/students")
+    const result = await axios.get
+    ("http://localhost:8080/students", 
+    { headers: {
+      "Access-Control-Allow-Origin": "*"
+    }})
     setStudents(result.data);
   }
 
