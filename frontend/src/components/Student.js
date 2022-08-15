@@ -14,7 +14,8 @@ export default function Student() {
     lastName:"",
     course:"",
     grade:0,
-    email:""
+    email:"",
+    id:""
   });
 
   const {firstName,lastName,course,grade,email,} = student;
@@ -41,7 +42,8 @@ export default function Student() {
     lastName:"",
     course:"",
     grade:0,
-    email:""
+    email:"",
+    id:""
   };
 
   /*const findStudentById = (studentId) => {

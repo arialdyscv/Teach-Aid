@@ -2,7 +2,7 @@ import React, { useState, useEffect }from 'react'
 import { faUsers, faStepBackward, faStepForward, faFastForward, faFastBackward } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Card, Table, FormControl, Button, InputGroup } from 'react-bootstrap';
-import axios from 'axios'
+import axios from 'axios';
 
 
 export default function UsersList() {
