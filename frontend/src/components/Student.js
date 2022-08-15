@@ -3,7 +3,8 @@ import { Card, Form, Button, Col, Row } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlusSquare, faSave, faUndo, faList } from '@fortawesome/free-solid-svg-icons'
+import { faPlusSquare, faSave, faUndo, faList } from '@fortawesome/free-solid-svg-icons';
+import AuthHeader from '../services/auth-header';
 
 export default function Student() {
 
@@ -27,14 +28,14 @@ export default function Student() {
 
  const onSubmit =async (e)=>{
     e.preventDefault()
-    await axios.post("http://localhost:8080/student", student)
+    await axios.post("http://localhost:8080/data/student", student, { headers: AuthHeader() })
     .then(res => {
       if(res.data != null) {
         setStudent(initialState);
         alert("Student Saved Successfully");
       }
     });
-    navigate("/list");
+    navigate("/user/list");
   };
 
  const initialState = {
@@ -78,7 +79,7 @@ export default function Student() {
  };
 
  const studentList = () => {
-    return navigate("/list");
+    return navigate("/user/list");
  };
 
   return (

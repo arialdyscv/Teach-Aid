@@ -3,22 +3,20 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
 import { Card, Table, ButtonGroup, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import AuthHeader from '../services/auth-header';
 import axios from 'axios';/*allows to make http requests to external resources
  with promise-based, so we can use async and await for asynchronous code
  supporting http verbs(post, put, get, delete, etc)*/
 
 export default function BookList() {
 
-  const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzdWNjZXNzIiwiZXhwIjoxNjYwMjY0OTkxLCJpYXQiOjE2NjAyNDY5OTF9.L9yIEMmrfcLyrufl7PHEhHBzk0dVyoumGNcwfd52ALFAuvUWPqu82dzM43JNaJVSELZtTxPHd8AHAUV_nlgAJA'; /*take only token and save in token variable*/
+  
 
   const [students,setStudents] = useState([])
 
   const loadStudents = async() => {
     const result = await axios.get
-    ("http://localhost:8080/students", 
-    { headers: {
-      "Access-Control-Allow-Origin": "*"
-    }})
+    ("http://localhost:8080/data/students", { headers: AuthHeader() })
     setStudents(result.data);
   }
 
@@ -27,7 +25,7 @@ export default function BookList() {
   }, []);
 
   const deleteStudent = (studentId) => {
-    axios.delete("http://localhost:8080/student/"+studentId)
+    axios.delete("http://localhost:8080/data/student/"+studentId, { headers: AuthHeader() } )
     .then(res=> {
       if(res.data != null) {
         setStudents(students.filter(student => student.id !== studentId))

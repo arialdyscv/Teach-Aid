@@ -1,6 +1,6 @@
 import './App.css';
 import React, { useState, useEffect } from "react";
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import { NavItem } from 'react-bootstrap';
@@ -16,11 +16,12 @@ import Login from './components/User/Login';
 import Register from './components/User/Register';
 import EventBus from "./common/EventBus";
 import AuthService from "./services/auth.service";
+import Profile from './components/profile';
+import BoardUser from './components/BoardUser';
 
 
 
 const App = () => {
-  const [showAdminBoard, setShowAdminBoard] = useState(false);
   const [currentUser, setCurrentUser] = useState(undefined);
 
   useEffect(() => {
@@ -28,7 +29,6 @@ const App = () => {
 
     if (user) {
       setCurrentUser(user);
-      setShowAdminBoard(user.roles.includes("ROLE_ADMIN"));
     }
 
     EventBus.on("logout", () => {
@@ -42,15 +42,19 @@ const App = () => {
 
   const logOut = () => {
     AuthService.logout();
-    setShowAdminBoard(false);
     setCurrentUser(undefined);
   };
 
+  const navCss = {
+    width: "149%",
+    marginLeft: "-25%",
+
+  }
+
   return (
-    <div>
-      <div>
-      <Navbar bg="dark" variant="dark p-3">
-          <Navbar.Brand href='/'>
+    <div className='container'>
+      <Navbar style={navCss} bg="dark" variant="dark">
+          <Navbar.Brand href='/' style={{"paddingLeft":"2rem"}}>
             <img 
               src="https://img.icons8.com/external-kosonicon-flat-kosonicon/64/000000/external-education-insurance-kosonicon-flat-kosonicon.png"
               width="32"
@@ -59,34 +63,55 @@ const App = () => {
             />
             <Link className='navbar-brand' to={"/"}>Teach Aid</Link>
           </Navbar.Brand>
-          <Nav className='container-fluid d-flex justify-content-start'>
-            <Link to={"student"} className='nav-link'>Add Student</Link>
-            {showAdminBoard && (
-              <NavItem>
-                <Link to={"/admin"} className="nav-link">
-                  Admin Board
-                </Link>
-              </NavItem>
-            )}
-            <Link to={"list"} className='nav-link'>Students List</Link>
-            <Link to={"users"} className='nav-link'>Users List</Link>
-          </Nav>
-          <Nav className='container-fluid d-flex justify-content-end' >
-            <Link to={"register"} className='nav-link' ><FontAwesomeIcon icon={faUserPlus}/> Register</Link>
-            <Link to={"login"} className='nav-link' ><FontAwesomeIcon icon={faSignInAlt}/> Login</Link>
-          </Nav>
-      </Navbar>
-      </div>
+            <Nav>
+              {currentUser && (
+                  <NavItem>
+                    <Link to={"profile"} className='nav-link'>User Profile</Link>
+                  </NavItem>
+                )
+              }
+            </Nav>
+              
+              {currentUser ? (
+                <div className='container'>
+                    <Nav>
+                      <NavItem >
+                        <Link to={"user/student"} className='nav-link'>Add Student</Link>
+                      </NavItem>
+                      <NavItem>
+                        <Link to={"user/list"} className='nav-link'>Students List</Link>
+                      </NavItem>
+                    </Nav> 
+                    <Nav>
+                      <NavItem >
+                        <Link to="/login" className="nav-link" onClick={logOut}>
+                          LogOut
+                        </Link>
+                      </NavItem>
+                    </Nav> 
+                </div>  
+              ) : (
+                <Nav className='container-fluid d-flex justify-content-end' >
+                <Link to={"register"} className='nav-link' ><FontAwesomeIcon icon={faUserPlus}/> Register</Link>
+                <Link to={"login"} className='nav-link' ><FontAwesomeIcon icon={faSignInAlt}/> Login</Link>
+              </Nav>
+              )}
+        </Navbar>
         <div>
         <Routes>
           <Route exact path="/" element={<Dashboard/>}/>
-          <Route exact path="/student" element={<Student/>}/>
-          <Route exact path="/student/:id" element={<Student/>}/>
-          <Route exact path="/list" element={<StudentList/>}/>
+          <Route exact path="user/student" element={<Student/>}/>
+          <Route exact path="user/student/:id" element={<Student/>}/>
+          <Route exact path="user/list" element={<StudentList/>}/>
           <Route exact path="/users" element={<UsersList/>}/>
+          <Route path="/profile" element={<Profile/>} />
+          <Route path="/user" element={<BoardUser/>} />
           <Route exact path="/register" element={<Register/>}/>
           <Route exact path="/login" element={<Login/>}/>
         </Routes>
+      </div>
+      <div>
+        <Footer/>
       </div>
     </div>
     

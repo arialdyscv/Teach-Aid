@@ -73,7 +73,7 @@ const Register = () => {
       (res) => {
       setNewUser(initialState)
       setMessage(res.data.message);
-      navigate("login")
+      navigate("/login")
       window.location.reload();
     },
     (error) => {
@@ -96,7 +96,7 @@ const Register = () => {
   return (
       <div>
         <Row style={{"paddingTop":"10rem"}} className='d-flex justify-content-md-center'>
-          <Col xs={3}>
+          <Col xs={4}>
             <Card className='container border-light bg-dark text-white'>
               <Card.Header><FontAwesomeIcon icon={faUserPlus} />{' '}Register
               </Card.Header>

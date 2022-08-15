@@ -39,7 +39,7 @@ const Login = () => {
         //if(checkBtn.current.context._errors.length === 0) {
            AuthService.login(username, password)
             .then(() => {
-                navigate("/list");
+                navigate("/profile");
                 window.location.reload();
             },(error) => {
                 const resMessage = (error.response && error.response.data.message) ||
@@ -53,7 +53,7 @@ const Login = () => {
     return (
             <div>
                 <Row style={{"paddingTop":"10rem"}} className='d-flex justify-content-md-center'>
-                    <Col xs={3}>
+                    <Col xs={4}>
                         <Card className='container border-light bg-dark text-white'>
                             <Card.Header>
                             <img className='justify-content-end'
