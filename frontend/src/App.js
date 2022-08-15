@@ -101,7 +101,7 @@ const App = () => {
         <Routes>
           <Route exact path="/" element={<Dashboard/>}/>
           <Route exact path="user/student" element={<Student/>}/>
-          <Route exact path="user/student/:id" element={<Student/>}/>
+          <Route exact path="student/:id" element={<Student/>}/>
           <Route exact path="user/list" element={<StudentList/>}/>
           <Route exact path="/users" element={<UsersList/>}/>
           <Route path="/profile" element={<Profile/>} />

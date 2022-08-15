@@ -47,9 +47,10 @@ export default function Student() {
     id:""
   };
 
-  /*const findStudentById = (studentId) => {
-    axios.get("http://localhost:8080/student/"+studentId)
+  const findStudentById = (studentId) => {
+    axios.get("http://localhost:8080/data/student/"+studentId, student)
     .then( res => {
+      console.log(res.data.student);
       if(res.data.id != null){
         setStudent({
             firtsName: res.data.firtsName,
@@ -61,17 +62,15 @@ export default function Student() {
       }}).catch((error) => {
         console.error("Error: "+error)
       });
-  };*/
-
+  };
   
-  /*useEffect(() => {//runs when a component is mounted
-    console.log(student.id)
+  useEffect(() => {//runs when a component is mounted
+    console.log("consola")
+    console.log(localStorage.getItem.user)
     if(student.id) {
       findStudentById(student.id)
     }
-  })*/
-  
-  
+  })
  
 
  const resetStudent = () => {

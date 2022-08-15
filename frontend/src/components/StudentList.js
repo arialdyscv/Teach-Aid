@@ -1,10 +1,12 @@
-import { faList, faEdit, faEraser } from '@fortawesome/free-solid-svg-icons';
+import { faList, faEdit, faEraser, faFilePdf } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
 import { Card, Table, ButtonGroup, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import AuthHeader from '../services/auth-header';
-import axios from 'axios';/*allows to make http requests to external resources
+import axios from 'axios';
+import download from 'downloadjs';
+/*allows to make http requests to external resources
  with promise-based, so we can use async and await for asynchronous code
  supporting http verbs(post, put, get, delete, etc)*/
 
@@ -19,6 +21,17 @@ export default function BookList() {
     ("http://localhost:8080/data/students", { headers: AuthHeader() })
     setStudents(result.data);
   }
+
+  const generatePdfList = (e) => {   
+    axios.get("http://localhost:8080/pdf/generate/report", { headers: AuthHeader(), responseType: 'blob' })
+    .then( res => {
+      if(res.data != null) {
+        const content = res.headers['content-type'];
+        download(res.data, "StudentListReport"  ,content)
+      }
+    })
+    .catch(error => console.log(error));
+  } 
 
   useEffect(() => {
     loadStudents();
@@ -74,8 +87,11 @@ export default function BookList() {
               }
           </tbody>
           </Table>
-
+          
         </Card.Body>
+        <Card.Footer className='container-fluid d-flex justify-content-end' >
+          <Button size='lg' variant='success' onClick={(e)=>generatePdfList()}><FontAwesomeIcon icon={faFilePdf}/></Button>
+        </Card.Footer>
       </Card>
     </div>
   )
