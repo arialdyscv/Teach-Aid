@@ -1,7 +1,7 @@
 package com.RestApi.TeachAid.controller;
 
+import com.RestApi.TeachAid.Repos.StudentRepo;
 import com.RestApi.TeachAid.model.Student;
-import com.RestApi.TeachAid.repo.StudentRepo;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -14,6 +14,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,11 +33,13 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class StudentListPdfController {
   @Autowired
   private StudentRepo studentRepo;
 
-  @GetMapping
+  @GetMapping("pdf/generate/report")
+  @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
   public ResponseEntity<Resource> generatePdfReport() throws IOException, DocumentException{
     List<Student> students = studentRepo.findAll();
 
