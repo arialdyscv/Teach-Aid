@@ -7,7 +7,7 @@ export default function Footer() {
   
   return (
     
-    <Navbar fixed="bottom" bg="dark" variant="dark">
+    <Navbar bg="dark" variant="dark">
         <Container>
             <Col lg={12} className='text-center text-muted'>
                 <Navbar.Text >{fullYear}, All Rights Reserved</Navbar.Text>

@@ -1,6 +1,6 @@
 import './App.css';
 import React, { useState, useEffect } from "react";
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import {Routes, Route} from 'react-router-dom';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import { NavItem } from 'react-bootstrap';
@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faSignInAlt , faUserPlus} from '@fortawesome/free-solid-svg-icons';
 import Dashboard from './components/Dashboard';
-import Footer from './components/Footer';
 import Student from './components/Student';
 import StudentList from './components/StudentList';
 import UsersList from './components/User/UsersList';
@@ -75,9 +74,6 @@ const App = () => {
               {currentUser ? (
                 <div className='container'>
                     <Nav>
-                      <NavItem >
-                        <Link to={"user/student"} className='nav-link'>Add Student</Link>
-                      </NavItem>
                       <NavItem>
                         <Link to={"user/list"} className='nav-link'>Students List</Link>
                       </NavItem>
@@ -109,9 +105,6 @@ const App = () => {
           <Route exact path="/register" element={<Register/>}/>
           <Route exact path="/login" element={<Login/>}/>
         </Routes>
-      </div>
-      <div>
-        <Footer/>
       </div>
     </div>
     

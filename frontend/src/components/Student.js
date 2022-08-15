@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Card, Form, Button, Col, Row } from 'react-bootstrap'
-import { useNavigate } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlusSquare, faSave, faUndo, faList } from '@fortawesome/free-solid-svg-icons';
+import { faPlusSquare, faSave, faUndo } from '@fortawesome/free-solid-svg-icons';
 import AuthHeader from '../services/auth-header';
 
 export default function Student() {
 
-  let navigate = useNavigate();
+  //let navigate = useNavigate();
 
   const [ student,setStudent ] = useState({
     firstName:"",
@@ -35,7 +35,6 @@ export default function Student() {
         alert("Student Saved Successfully");
       }
     });
-    navigate("/user/list");
   };
 
  const initialState = {
@@ -47,45 +46,15 @@ export default function Student() {
     id:""
   };
 
-  const findStudentById = (studentId) => {
-    axios.get("http://localhost:8080/data/student/"+studentId, student)
-    .then( res => {
-      console.log(res.data.student);
-      if(res.data.id != null){
-        setStudent({
-            firtsName: res.data.firtsName,
-            lastName: res.data.lastName,
-            course: res.data.course,
-            grade: res.data.grade,
-            email: res.data.email,
-          });
-      }}).catch((error) => {
-        console.error("Error: "+error)
-      });
-  };
-  
-  useEffect(() => {//runs when a component is mounted
-    console.log("consola")
-    console.log(localStorage.getItem.user)
-    if(student.id) {
-      findStudentById(student.id)
-    }
-  })
- 
-
  const resetStudent = () => {
   setStudent(() => initialState)
  };
 
- const studentList = () => {
-    return navigate("/user/list");
- };
-
   return (
     <div>
-        <Card className={"border border-dark bg-dark text-white"}>
+        <Card className={"border border-dark bg-dark text-white mt-5"}>
           <Card.Header><FontAwesomeIcon icon={faPlusSquare} /> Student</Card.Header>
-          <Form  onReset={resetStudent} onSubmit={(e) => onSubmit(e)} id="studentFormId">
+          <Form  onReset={resetStudent} onSubmit={(e)=>onSubmit} id="studentFormId">
             <Card.Body>
               <Row>
                 <Form.Group as={Col} className="mb-3" >
@@ -152,9 +121,6 @@ export default function Student() {
               </Button>{'  '}
               <Button size="m" variant="info" type="reset">
                 <FontAwesomeIcon icon={faUndo} /> Reset
-              </Button>{'  '}
-              <Button size="m" variant="info" type="reset" onClick={studentList}>
-                <FontAwesomeIcon icon={faList} /> Student List
               </Button>
             </Card.Footer>
           </Form>

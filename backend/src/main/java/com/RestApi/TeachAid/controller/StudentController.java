@@ -19,28 +19,34 @@ public class StudentController {
 
 
     @PostMapping("/student")//to post the data
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER')")
     Student newStudent(@RequestBody Student newStudent){
         return studentRepository.save(newStudent);
     }
 
 
     @GetMapping("/students")//to get the data
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER')")
     List<Student> getAllStudents(){
         return studentRepository.findAll();
     }
 
 
     @GetMapping("/student/{id}")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER')")
     Student getStudentById(@PathVariable Long id){//to get specific variable
         return studentRepository.findById(id)
                 .orElseThrow(()->new StudentNotFoundException(id));//Exception in case of error
     }
 
+    @PutMapping("/student/{id}")
+    @PreAuthorize("hasRole('USER')")
+    Student editStudentById(@PathVariable Student editStudent){//to get specific variable
+        return studentRepository.save(editStudent);
+    }
+
     @DeleteMapping("/student/{id}")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER')")
     Student deleteStudentById(@PathVariable Long id){//to get specific variable
         Optional<Student> student = studentRepository.findById(id);
         if(!student.isPresent()) {
@@ -48,6 +54,7 @@ public class StudentController {
         } else {
             studentRepository.deleteById(id);
         }
+
         return null;
     }
 
